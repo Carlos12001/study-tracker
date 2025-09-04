@@ -1,0 +1,35 @@
+name: "📚 Study Session"
+description: Log a study session with hours
+title: "[STUDY]"
+labels: ["study"]
+
+body:
+  - type: input
+    id: date
+    attributes:
+      label: Date
+      placeholder: "2025-09-04"
+    validations:
+      required: true
+
+  - type: input
+    id: hours
+    attributes:
+      label: Hours spent
+      placeholder: "2.0"
+    validations:
+      required: true
+
+  - type: textarea
+    id: goal
+    attributes:
+      label: Goal
+      placeholder: "E.g., Review chapter 3 of Networking"
+    validations:
+      required: true
+
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Outcome
+      placeholder: "E.g., Summary in /notes/ch3.md"
