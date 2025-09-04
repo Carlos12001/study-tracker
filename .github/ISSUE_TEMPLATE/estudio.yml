@@ -1,0 +1,35 @@
+name: "📚 Sesión de estudio"
+description: Registrar una sesión de estudio con horas
+title: "[EST]"
+labels: ["estudio"]
+
+body:
+  - type: input
+    id: fecha
+    attributes:
+      label: Fecha
+      placeholder: "2025-09-04"
+    validations:
+      required: true
+
+  - type: input
+    id: horas
+    attributes:
+      label: Horas invertidas
+      placeholder: "2.0"
+    validations:
+      required: true
+
+  - type: textarea
+    id: objetivo
+    attributes:
+      label: Objetivo
+      placeholder: "Ej: Repasar capítulo 3 de Redes"
+    validations:
+      required: true
+
+  - type: textarea
+    id: resultado
+    attributes:
+      label: Resultado
+      placeholder: "Ej: Resumen en /notas/cap3.md"
