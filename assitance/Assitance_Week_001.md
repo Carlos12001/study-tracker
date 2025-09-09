@@ -5,10 +5,9 @@
 LiteX es un **framework*️⃣ open-source en Python** para crear **SoCs*️⃣ sobre FPGAs** de forma modular.  
 En vez de diseñar todo en Verilog/VHDL, ofrece bloques listos para conectar, simular y generar un sistema.
 
+<small> 🔹 SoC: chip que integra CPU + memoria + periféricos.
+🔹 Framework: como un kit de LEGO con piezas listas; en lugar de crear todo desde cero, solo armas con lo que ya viene.</small>
 
-
-<small> 🔹 SoC: chip que integra CPU + memoria + periféricos.*  
-🔹 *Framework: como un kit de LEGO con piezas listas; en lugar de crear todo desde cero, solo armas con lo que ya viene.*</small>
 
 <p align="center">
   <img src="https://github.com/Carlos12001/study-tracker/blob/master/assitance/images/image_0001.png" width="500" alt="Ejemplo SoC"/>
@@ -20,7 +19,7 @@ En vez de diseñar todo en Verilog/VHDL, ofrece bloques listos para conectar, si
 LiteX describe hardware usando Python + [Migen](https://m-labs.hk/misc/migen/) *️⃣ y lo convierte en HDL (Verilog/VHDL).  
 Luego se sintetiza con herramientas open-source o propietarias, generando el *bitstream* para cargar en la FPGA.
 
-<small>🔹 *Migen: librería de Python para describir circuitos digitales de forma más sencilla que en Verilog/VHDL.*</small>
+<small>🔹 Migen: librería de Python para describir circuitos digitales de forma más sencilla que en Verilog/VHDL.</small>
 
 
 ## 🔄 Flujo de trabajo
@@ -44,7 +43,7 @@ Bitstream para FPGA
 - **Síntesis:** Yosys/nextpnr · Vivado · Quartus  
 - **CPUs soportadas:** VexRiscv · Rocket · PicoRV32 · LM32 · BlackParrot  
 
-<small>🔹 *Verilator: simulador rápido de diseños en Verilog, convierte el hardware en un modelo en C++ para probarlo sin FPGA.*</small>
+<small>🔹 Verilator: simulador rápido de diseños en Verilog, convierte el hardware en un modelo en C++ para probarlo sin FPGA.</small>
 
 
 ## 🎯 ¿Para qué se usa?
