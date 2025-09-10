@@ -53,3 +53,91 @@ Bitstream para FPGA
 - Experimentar con CPUs RISC-V y correr sistemas operativos (ej. Linux).  
 - Simular diseños completos sin hardware físico.  
 - Reutilizar cores ya probados en lugar de empezar desde cero.
+
+## 🧩 Arquitectura de LiteX
+
+LiteX actúa como **pegamento** entre:
+- Los **softcores** (CPUs implementadas en lógica programable).  
+- Los **periféricos** (Ethernet, DRAM, SATA, PCIe, UART, etc.).  
+- El **bus de interconexión** (Wishbone, AXI, Avalon-ST).  
+
+Todo se define en Python, y LiteX se encarga de generar el RTL, la conexión entre bloques y el *CSR map* (registros de control).
+
+## 🖥️ Cores principales
+
+LiteX tiene un ecosistema de módulos reutilizables llamados **LiteX cores**:
+- **LiteDRAM:** controlador de memoria SDR/DDR/DDR3.  
+- **LiteEth:** Ethernet hasta 1 Gbps.  
+- **LitePCIe:** PCIe hasta Gen2 x4.  
+- **LiteSATA:** almacenamiento SATA 1/2/3.  
+- **LiteScope:** analizador lógico embebido.  
+- **LiteSDCard, LiteSPI, LiteUSB, LiteVideo…**  
+
+Esto evita que los estudiantes tengan que programar periféricos desde cero.
+
+## 🧠 Softcores soportados
+
+LiteX soporta varias CPUs “soft” que se implementan dentro de la FPGA:
+- **VexRiscv (RISC-V):** flexible, rápido, ideal para correr Linux.  
+- **PicoRV32 (RISC-V):** muy pequeño, perfecto para demos educativas.  
+- **LM32 (Lattice Micro32):** legado, simple de entender.  
+- **Rocket Chip (RISC-V):** núcleo de Berkeley, más avanzado.  
+- **BlackParrot (RISC-V multicore).**
+
+<small>🔹 Softcore: procesador implementado en la FPGA por lógica programable, no grabado físicamente como un ARM Cortex en un SoC comercial.</small>
+
+## 🧰 Tecnologías que usa
+
+- **Lenguaje base:** Python + Migen  
+- **Compatibilidad:** Verilog · VHDL · nMigen · SpinalHDL  
+- **Simulación:** [Verilator](https://www.veripool.org/verilator/) *️⃣  
+- **Síntesis:** Yosys/nextpnr · Vivado · Quartus  
+- **CPUs soportadas:** VexRiscv · Rocket · PicoRV32 · LM32 · BlackParrot  
+
+<small>🔹 Verilator: simulador rápido de diseños en Verilog, convierte el hardware en un modelo en C++ para probarlo sin FPGA.</small>
+
+## ⚖️ Comparación con Vivado
+
+- **Vivado (Xilinx):**
+  - Entorno gráfico, intuitivo para principiantes.  
+  - Fuerte dependencia de IPs propietarios.  
+  - Menos flexible fuera del ecosistema Xilinx.  
+
+- **LiteX:**
+  - Basado en scripts Python → más flexible y portable.  
+  - Ecosistema de IPs open-source (DRAM, Ethernet, PCIe, etc.).  
+  - Curva de aprendizaje: requiere Linux/terminal.  
+
+## 📝 Notas de instalación
+
+En Ubuntu, la instalación básica es con `apt`:
+
+///bash
+sudo apt update
+sudo apt install python3 python3-pip git meson ninja-build \
+                 libevent-dev libjson-c-dev verilator
+///
+
+Después instalar LiteX:
+
+///bash
+wget https://raw.githubusercontent.com/enjoy-digital/litex/master/litex_setup.py
+chmod +x litex_setup.py
+./litex_setup.py --init --install --user
+///
+
+Y para probar la simulación:
+
+///bash
+litex_sim --cpu-type=vexriscv
+///
+
+Si aparece el prompt del BIOS → LiteX está funcionando.
+
+## 🎯 ¿Para qué se usa?
+
+- Crear SoCs rápidos y flexibles sobre FPGA.  
+- Integrar periféricos complejos sin depender de IPs propietarios.  
+- Experimentar con CPUs RISC-V y correr sistemas operativos (ej. Linux).  
+- Simular diseños completos sin hardware físico.  
+- Usar como herramienta de enseñanza: los estudiantes no necesitan programar un CPU en Verilog, solo instanciar y conectar bloques.
