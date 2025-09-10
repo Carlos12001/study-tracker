@@ -10,7 +10,7 @@ En vez de diseñar todo en Verilog/VHDL, ofrece bloques listos para conectar, si
 
 
 <p align="center">
-  <img src="https://github.com/Carlos12001/study-tracker/blob/master/assitance/images/image_0001.png" width="500" alt="Ejemplo SoC"/>
+  <img src="https://github.com/Carlos12001/study-tracker/blob/master/assistance/images/image_0001.png" width="500" alt="Ejemplo SoC"/>
 </p>
 
 
