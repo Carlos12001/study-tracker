@@ -123,27 +123,26 @@ sudo apt install -y python3 python3-pip git meson ninja-build \
 ```bash
 wget https://raw.githubusercontent.com/enjoy-digital/litex/master/litex_setup.py
 chmod +x litex_setup.py
-sudo ./litex_setup.py --init --install --user
+./litex_setup.py --init --install --user
 ```
 
 > [!WARNING]  
-> En superiores al Ubuntu 22 puede aparecer el error  
+> En Ubuntu 24.04 o superior puede aparecer el error  
 > `externally-managed-environment`.  
->  
-> Solución rápida:  
+> Solución rápida (válida para bash, zsh o fish):  
 > 
 > ```bash
-> echo 'export PIP_BREAK_SYSTEM_PACKAGES=1' >> ~/.bashrc
-> source ~/.bashrc
-> ```
->  
+> echo 'export PIP_BREAK_SYSTEM_PACKAGES=1' >> ~/.profile
+> source ~/.profile
+> ```  
+> 
 > Después vuelve a correr el paso 2.
 
 ### 🔹 Paso 3: Configurar el entorno
 
 ```bash
-echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
-source ~/.bashrc
+echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.profile
+source ~/.profile
 ```
 
 > [!NOTE]  
@@ -167,11 +166,8 @@ litex_sim --cpu-type=vexriscv
 
 Si aparece el prompt del BIOS → LiteX está funcionando ✅
 
-
-
 ## 📦 Implementaciones de SoCs en FPGA
 
 ### Digilent Basys3
 
 ### Terasic DE1-Standard
-
