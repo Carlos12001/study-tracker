@@ -108,34 +108,70 @@ LiteX soporta varias CPUs “soft” que se implementan dentro de la FPGA:
   - Ecosistema de IPs open-source (DRAM, Ethernet, PCIe, etc.).  
   - Curva de aprendizaje: requiere Linux/terminal.  
 
-## 📝 Notas de instalación
+## 📝 Instalación
 
-En Ubuntu, la instalación básica es con `apt`:
+### 🔹 Paso 1: Instalar dependencias
 
 ```bash
 sudo apt update
-sudo apt install python3 python3-pip git meson ninja-build \
-                 libevent-dev libjson-c-dev verilator
+sudo apt install -y python3 python3-pip git meson ninja-build \
+    libevent-dev libjson-c-dev verilator
 ```
 
-Después instalar LiteX:
+### 🔹 Paso 2: Descargar e instalar LiteX
 
 ```bash
 wget https://raw.githubusercontent.com/enjoy-digital/litex/master/litex_setup.py
 chmod +x litex_setup.py
-./litex_setup.py --init --install --user
+sudo ./litex_setup.py --init --install --user
 ```
 
-Y para probar la simulación:
+> [!WARNING]  
+> En superiores al Ubuntu 22 puede aparecer el error  
+> `externally-managed-environment`.  
+>  
+> Solución rápida:  
+> 
+> ```bash
+> echo 'export PIP_BREAK_SYSTEM_PACKAGES=1' >> ~/.bashrc
+> source ~/.bashrc
+> ```
+>  
+> Después vuelve a correr el paso 2.
+
+### 🔹 Paso 3: Configurar el entorno
+
+```bash
+echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
+source ~/.bashrc
+```
+
+> [!NOTE]  
+> Si después de instalar LiteX aparece el error  
+> `command not found: litex_sim`, revisa que el paso 3 se haya aplicado correctamente.  
+
+### 🔹 Paso 4: Verificar instalación
+
+```bash
+meson --version
+ninja --version
+litex_sim --help
+python3 -c "import litex; print('LiteX instalado OK')"
+```
+
+### 🔹 Paso 5: Probar la simulación
 
 ```bash
 litex_sim --cpu-type=vexriscv
 ```
 
-Si aparece el prompt del BIOS → LiteX está funcionando.
+Si aparece el prompt del BIOS → LiteX está funcionando ✅
 
-## Implementaciones de SoCs de FPGA 
 
-### Digilent Basys3 
+
+## 📦 Implementaciones de SoCs en FPGA
+
+### Digilent Basys3
 
 ### Terasic DE1-Standard
+
