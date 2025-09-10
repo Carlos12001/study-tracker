@@ -112,32 +112,30 @@ LiteX soporta varias CPUs “soft” que se implementan dentro de la FPGA:
 
 En Ubuntu, la instalación básica es con `apt`:
 
-///bash
+```bash
 sudo apt update
 sudo apt install python3 python3-pip git meson ninja-build \
                  libevent-dev libjson-c-dev verilator
-///
+```
 
 Después instalar LiteX:
 
-///bash
+```bash
 wget https://raw.githubusercontent.com/enjoy-digital/litex/master/litex_setup.py
 chmod +x litex_setup.py
 ./litex_setup.py --init --install --user
-///
+```
 
 Y para probar la simulación:
 
-///bash
+```bash
 litex_sim --cpu-type=vexriscv
-///
+```
 
 Si aparece el prompt del BIOS → LiteX está funcionando.
 
-## 🎯 ¿Para qué se usa?
+## Implementaciones de SoCs de FPGA 
 
-- Crear SoCs rápidos y flexibles sobre FPGA.  
-- Integrar periféricos complejos sin depender de IPs propietarios.  
-- Experimentar con CPUs RISC-V y correr sistemas operativos (ej. Linux).  
-- Simular diseños completos sin hardware físico.  
-- Usar como herramienta de enseñanza: los estudiantes no necesitan programar un CPU en Verilog, solo instanciar y conectar bloques.
+### Digilent Basys3 
+
+### Terasic DE1-Standard
