@@ -127,12 +127,6 @@ sudo apt install -y python3 python3-pip git meson ninja-build \
 
 ### 🔹 Paso 3: Descargar e instalar LiteX
 
-```bash
-wget https://raw.githubusercontent.com/enjoy-digital/litex/master/litex_setup.py
-chmod +x litex_setup.py
-./litex_setup.py --init --install --user --config=standard
-```
-
 > [!WARNING]  
 > En Ubuntu 24.04 o superior puede aparecer el error  
 > `externally-managed-environment`.  
@@ -142,8 +136,14 @@ chmod +x litex_setup.py
 > echo 'export PIP_BREAK_SYSTEM_PACKAGES=1' >> ~/.profile
 > source ~/.profile
 > ```
-> 
-> Luego vuelve a correr el **Paso 3**.
+
+```bash
+wget https://raw.githubusercontent.com/enjoy-digital/litex/master/litex_setup.py
+chmod +x litex_setup.py
+./litex_setup.py --init --install --user --config=standard
+```
+
+
 
 ### 🔹 Paso 4: Verificar instalación
 
