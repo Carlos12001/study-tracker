@@ -366,7 +366,6 @@ dut = Top()
 convert(dut, ios={dut.a, dut.b, dut.y}).write("top.v")
 ```
 
-
 ---
 
 ## Ejercicios prácticos
