@@ -407,55 +407,7 @@ if __name__ == "__main__":
 python toggle.py
 ```
 
-### Ejemplo 2: Blinker (LED parpadeante)
-
-**Especificación:**
-Implementa un LED parpadeante que se enciende y apaga a un período específico basado en la frecuencia del reloj del sistema.
-
-- **Parámetros:**
-  - `sys_clk_freq`: Frecuencia del reloj del sistema (Hz)
-  - `period`: Período de parpadeo deseado (segundos)
-- **Salida:** `led` - señal que parpadea al período especificado
-- **Comportamiento:** El LED debe cambiar de estado cada `period/2` segundos
-
-```python
-from migen import *
-from migen.sim import run_simulation
-
-class Blinker(Module):
-    def __init__(self, sys_clk_freq, period):
-        self.led = led = Signal()
-        toggle = Signal()
-        counter_preload = int(sys_clk_freq * period / 2)
-        counter = Signal(max=counter_preload + 1)
-
-        self.comb += toggle.eq(counter == 0)
-        self.sync += If(toggle,
-                        led.eq(~led),
-                        counter.eq(counter_preload)
-                    ).Else(
-                        counter.eq(counter - 1)
-                    )
-
-def tb(dut):
-    for i in range(25):
-        yield
-        print(f"cycle {i:02d}: led={(yield dut.led)}")
-
-if __name__ == "__main__":
-    blinker = Blinker(sys_clk_freq=100e6, period=1e-1)
-    run_simulation(blinker, tb(blinker))
-```
-
-> [!NOTE]  
-> Este ejemplo sólo se **simula**.  
-> El log muestra ciclos y el estado del LED.
-
-```bash
-python blinker.py
-```
-
-### Ejemplo 3: Counter (contador con testbench)
+### Ejemplo 2: Counter (contador con testbench)
 
 Implementa un contador de 4 bits que se incrementa en cada ciclo de reloj y se reinicia automáticamente cuando alcanza su valor máximo.
 
@@ -505,8 +457,7 @@ python counter.py
 gtkwave counter.vcd
 ```
 
-<!--- UNCHECKED EXERCISE
-### Ejercicio 4: Multiplexor con FSM
+### Ejercicio 3: Multiplexor con FSM
 
 **Especificación:**
 Diseña un multiplexor de 4 entradas controlado por una máquina de estados que rota automáticamente entre las entradas.
@@ -576,9 +527,7 @@ python mux_fsm.py
 gtkwave mux_fsm.vcd
 ```
 
----
-
-### Ejercicio 5: Concatenación y Slicing
+### Ejercicio 4: Concatenación y Slicing
 
 **Especificación:**
 Diseña un circuito que tome dos señales de 4 bits, las concatene en una de 8 bits, y luego extraiga diferentes partes usando slicing.
@@ -646,7 +595,7 @@ gtkwave concat_slice.vcd
 
 ---
 
-### Ejercicio 6: Memoria Simple
+### Ejercicio 5: Memoria Simple
 
 **Especificación:**
 Implementa una memoria RAM básica de 4 palabras de 8 bits con operaciones simples de lectura y escritura.
@@ -720,5 +669,3 @@ if __name__ == "__main__":
 python simple_memory.py
 gtkwave simple_memory.vcd
 ```
-
-!--->
