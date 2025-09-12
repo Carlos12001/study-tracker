@@ -370,6 +370,8 @@ convert(dut, ios={dut.a, dut.b, dut.y}).write("top.v")
 
 ## Ejercicios prácticos
 
+Se le recomienda al usuario intentar primero el ejercicio y luego ver las respuestas.
+
 ### Ejemplo 1: Toggle simple
 
 **Especificación:**
@@ -381,6 +383,7 @@ Diseña un circuito que cambie su salida en cada ciclo de reloj. La salida debe 
 
 ```python
 from migen import *
+from migen.fhdl import verilog
 
 class Toggle(Module):
     def __init__(self):
@@ -482,10 +485,10 @@ def counter_test(dut):
 if __name__ == "__main__":
     dut = Counter()
 
-    # Opción 1: Simulación
+    # Simulación
     run_simulation(dut, counter_test(dut), vcd_name="counter.vcd")
 
-    # Opción 2: Generación de Verilog
+    # Generación de Verilog
     dut = Counter()   # reinstanciar antes de convertir
     v = verilog.convert(dut, {dut.count})
     print(v)
@@ -501,3 +504,221 @@ python counter.py
 
 gtkwave counter.vcd
 ```
+
+<!--- UNCHECKED EXERCISE
+### Ejercicio 4: Multiplexor con FSM
+
+**Especificación:**
+Diseña un multiplexor de 4 entradas controlado por una máquina de estados que rota automáticamente entre las entradas.
+
+- **Entradas:** `a`, `b`, `c`, `d` - 4 señales de 1 bit
+- **Salida:** `y` - salida multiplexada
+- **Comportamiento:** La FSM rota automáticamente cada ciclo: A → B → C → D → A
+
+```python
+from migen import *
+from migen.genlib.fsm import FSM, NextState
+from migen.sim import run_simulation
+
+class MuxFSM(Module):
+    def __init__(self):
+        # Entradas
+        self.a = Signal()
+        self.b = Signal() 
+        self.c = Signal()
+        self.d = Signal()
+        
+        # Salida
+        self.y = Signal()
+        
+        # Máquina de estados
+        fsm = FSM(reset_state="SEL_A")
+        self.submodules.fsm = fsm
+        
+        fsm.act("SEL_A",
+            self.y.eq(self.a),
+            NextState("SEL_B")
+        )
+        fsm.act("SEL_B", 
+            self.y.eq(self.b),
+            NextState("SEL_C")
+        )
+        fsm.act("SEL_C",
+            self.y.eq(self.c),
+            NextState("SEL_D")
+        )
+        fsm.act("SEL_D",
+            self.y.eq(self.d),
+            NextState("SEL_A")
+        )
+
+def mux_fsm_test(dut):
+    # Establecer valores de entrada
+    yield dut.a.eq(1)
+    yield dut.b.eq(0)
+    yield dut.c.eq(1)
+    yield dut.d.eq(0)
+    yield
+    
+    for i in range(8):
+        output = yield dut.y
+        print(f"cycle {i:02d}: output={output}")
+        yield
+
+if __name__ == "__main__":
+    # Simulación
+    dut = MuxFSM()
+    run_simulation(dut, mux_fsm_test(dut), vcd_name="mux_fsm.vcd")
+```
+
+```bash
+python mux_fsm.py
+gtkwave mux_fsm.vcd
+```
+
+---
+
+### Ejercicio 5: Concatenación y Slicing
+
+**Especificación:**
+Diseña un circuito que tome dos señales de 4 bits, las concatene en una de 8 bits, y luego extraiga diferentes partes usando slicing.
+
+- **Entradas:** `a`, `b` - dos señales de 4 bits cada una
+- **Salidas:**
+  - `concat` - concatenación completa de 8 bits
+  - `high` - 4 bits superiores
+  - `low` - 4 bits inferiores
+  - `middle` - 4 bits del medio (bits 2-5)
+
+```python
+from migen import *
+from migen.sim import run_simulation
+
+class ConcatSlice(Module):
+    def __init__(self):
+        # Entradas
+        self.a = Signal(4)
+        self.b = Signal(4)
+        
+        # Salidas
+        self.concat = Signal(8)
+        self.high = Signal(4)
+        self.low = Signal(4)
+        self.middle = Signal(4)
+        
+        # Concatenación
+        self.comb += self.concat.eq(Cat(self.a, self.b))
+        
+        # Slicing
+        self.comb += [
+            self.high.eq(self.concat[4:8]),    # bits 7-4
+            self.low.eq(self.concat[0:4]),     # bits 3-0  
+            self.middle.eq(self.concat[2:6])   # bits 5-2
+        ]
+
+def concat_slice_test(dut):
+    test_cases = [(0x3, 0x5), (0xA, 0xF), (0x7, 0x2)]
+    
+    for a_val, b_val in test_cases:
+        yield dut.a.eq(a_val)
+        yield dut.b.eq(b_val)
+        yield
+        
+        concat = yield dut.concat
+        high = yield dut.high
+        low = yield dut.low
+        middle = yield dut.middle
+        
+        print(f"a=0x{a_val:X}, b=0x{b_val:X}")
+        print(f"  concat=0x{concat:02X}, high=0x{high:X}, low=0x{low:X}, middle=0x{middle:X}")
+
+if __name__ == "__main__":
+    # Simulación
+    dut = ConcatSlice()
+    run_simulation(dut, concat_slice_test(dut), vcd_name="concat_slice.vcd")
+
+```
+
+```bash
+python concat_slice.py
+gtkwave concat_slice.vcd
+```
+
+---
+
+### Ejercicio 6: Memoria Simple
+
+**Especificación:**
+Implementa una memoria RAM básica de 4 palabras de 8 bits con operaciones simples de lectura y escritura.
+
+- **Entradas:**
+  - `addr` - dirección de 2 bits (0-3)
+  - `data_in` - datos de entrada de 8 bits
+  - `we` - write enable
+- **Salida:** `data_out` - datos de salida de 8 bits
+
+```python
+from migen import *
+from migen.sim import run_simulation
+
+class SimpleMemory(Module):
+    def __init__(self):
+        # Entradas
+        self.addr = Signal(2)
+        self.data_in = Signal(8)
+        self.we = Signal()
+        
+        # Salida
+        self.data_out = Signal(8)
+        
+        # Memoria: 8 bits x 4 palabras
+        mem = Memory(8, 4)
+        read_port = mem.get_port()
+        write_port = mem.get_port(write_capable=True)
+        self.specials += mem, read_port, write_port
+        
+        # Conexiones
+        self.comb += [
+            # Puerto de lectura
+            read_port.adr.eq(self.addr),
+            self.data_out.eq(read_port.dat_r),
+            
+            # Puerto de escritura
+            write_port.adr.eq(self.addr),
+            write_port.dat_w.eq(self.data_in),
+            write_port.we.eq(self.we)
+        ]
+
+def memory_test(dut):
+    # Escribir datos
+    test_data = [0xAA, 0xBB, 0xCC, 0xDD]
+    
+    print("Escribiendo datos:")
+    for addr, data in enumerate(test_data):
+        yield dut.addr.eq(addr)
+        yield dut.data_in.eq(data)
+        yield dut.we.eq(1)
+        yield
+        print(f"  Dirección {addr}: 0x{data:02X}")
+        yield dut.we.eq(0)
+        yield
+    
+    print("\nLeyendo datos:")
+    for addr in range(4):
+        yield dut.addr.eq(addr)
+        yield
+        data = yield dut.data_out
+        print(f"  Dirección {addr}: 0x{data:02X}")
+
+if __name__ == "__main__":
+    # Simulación
+    dut = SimpleMemory()
+    run_simulation(dut, memory_test(dut), vcd_name="simple_memory.vcd")
+```
+
+```bash
+python simple_memory.py
+gtkwave simple_memory.vcd
+```
+
+!--->

@@ -114,7 +114,7 @@ sudo apt install -y python3 python3-pip git meson ninja-build \
 > En Ubuntu 24.04 o superior puede aparecer el error  
 > `externally-managed-environment`.  
 > Solución rápida:  
-> 
+>
 > ```bash
 > echo 'export PIP_BREAK_SYSTEM_PACKAGES=1' >> ~/.profile
 > source ~/.profile
@@ -125,8 +125,6 @@ wget https://raw.githubusercontent.com/enjoy-digital/litex/master/litex_setup.py
 chmod +x litex_setup.py
 ./litex_setup.py --init --install --user --config=standard
 ```
-
-
 
 ### 🔹 Paso 4: Verificar instalación
 
