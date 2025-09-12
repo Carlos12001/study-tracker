@@ -2,52 +2,48 @@ from migen import *
 from migen.genlib.fsm import FSM, NextState
 from migen.sim import run_simulation
 
-class MuxFSM(Module):
+class TrafficLight(Module):
     def __init__(self):
-        # Entradas
-        self.a = Signal()
-        self.b = Signal() 
-        self.c = Signal()
-        self.d = Signal()
-        
-        # Salida
-        self.y = Signal()
+        # Salidas
+        self.red = Signal()
+        self.yellow = Signal()
+        self.green = Signal()
         
         # Máquina de estados
-        fsm = FSM(reset_state="SEL_A")
+        fsm = FSM(reset_state="GREEN")
         self.submodules.fsm = fsm
         
-        fsm.act("SEL_A",
-            self.y.eq(self.a),
-            NextState("SEL_B")
+        fsm.act("GREEN",
+            self.green.eq(1),
+            self.yellow.eq(0),
+            self.red.eq(0),
+            NextState("YELLOW")
         )
-        fsm.act("SEL_B", 
-            self.y.eq(self.b),
-            NextState("SEL_C")
+        fsm.act("YELLOW",
+            self.green.eq(0),
+            self.yellow.eq(1),
+            self.red.eq(0),
+            NextState("RED")
         )
-        fsm.act("SEL_C",
-            self.y.eq(self.c),
-            NextState("SEL_D")
-        )
-        fsm.act("SEL_D",
-            self.y.eq(self.d),
-            NextState("SEL_A")
+        fsm.act("RED",
+            self.green.eq(0),
+            self.yellow.eq(0),
+            self.red.eq(1),
+            NextState("GREEN")
         )
 
-def mux_fsm_test(dut):
-    # Establecer valores de entrada
-    yield dut.a.eq(1)
-    yield dut.b.eq(0)
-    yield dut.c.eq(1)
-    yield dut.d.eq(0)
-    yield
-    
-    for i in range(8):
-        output = yield dut.y
-        print(f"cycle {i:02d}: output={output}")
+def traffic_light_test(dut):
+    for i in range(12):
+        red = yield dut.red
+        yellow = yield dut.yellow
+        green = yield dut.green
+        
+        # Mostrar qué luz está encendida
+        light = "GREEN" if green else ("YELLOW" if yellow else "RED")
+        print(f"cycle {i:02d}: {light} (R={red} Y={yellow} G={green})")
         yield
 
 if __name__ == "__main__":
     # Simulación
-    dut = MuxFSM()
-    run_simulation(dut, mux_fsm_test(dut), vcd_name="mux_fsm.vcd")
+    dut = TrafficLight()
+    run_simulation(dut, traffic_light_test(dut), vcd_name="traffic_light.vcd")
