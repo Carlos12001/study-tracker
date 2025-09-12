@@ -372,10 +372,17 @@ convert(dut, ios={dut.a, dut.b, dut.y}).write("top.v")
 
 ### Ejemplo 1: Toggle simple
 
+**Especificación:**
+Diseña un circuito que cambie su salida en cada ciclo de reloj. La salida debe alternar entre 0 y 1 continuamente, creando un patrón de toggle básico.
+
+- **Entrada:** Ninguna (solo reloj implícito)
+- **Salida:** `o` - señal que alterna cada ciclo
+- **Comportamiento:** En cada flanco positivo del reloj, la salida debe cambiar de estado
+
 ```python
 from migen import *
 
-class MyToggle(Module):
+class Toggle(Module):
     def __init__(self):
         self.o = Signal()   # salida visible
         d = Signal()
@@ -388,12 +395,25 @@ class MyToggle(Module):
         self.sync += q.eq(d)
 
 if __name__ == "__main__":
-    dut = MyToggle()
+    dut = Toggle()
     v = verilog.convert(dut, {dut.o})
     print(v)
 ```
 
+```bash
+python toggle.py
+```
+
 ### Ejemplo 2: Blinker (LED parpadeante)
+
+**Especificación:**
+Implementa un LED parpadeante que se enciende y apaga a un período específico basado en la frecuencia del reloj del sistema.
+
+- **Parámetros:**
+  - `sys_clk_freq`: Frecuencia del reloj del sistema (Hz)
+  - `period`: Período de parpadeo deseado (segundos)
+- **Salida:** `led` - señal que parpadea al período especificado
+- **Comportamiento:** El LED debe cambiar de estado cada `period/2` segundos
 
 ```python
 from migen import *
@@ -428,7 +448,20 @@ if __name__ == "__main__":
 > Este ejemplo sólo se **simula**.  
 > El log muestra ciclos y el estado del LED.
 
+```bash
+python blinker.py
+```
+
 ### Ejemplo 3: Counter (contador con testbench)
+
+Implementa un contador de 4 bits que se incrementa en cada ciclo de reloj y se reinicia automáticamente cuando alcanza su valor máximo.
+
+- **Entrada:** Ninguna (solo reloj y reset implícitos)
+- **Salida:** `count` - contador de 4 bits (0-15)
+- **Comportamiento:**
+  - Inicia en 0 después del reset
+  - Se incrementa en 1 cada ciclo de reloj
+  - Se reinicia automáticamente después de 15 (overflow)
 
 ```python
 from migen import *
@@ -461,3 +494,10 @@ if __name__ == "__main__":
 > [!WARNING]  
 > No se puede usar `run_simulation` y `verilog.convert` en la misma ejecución.  
 > Una vez simulado un módulo, hay que **reinstanciarlo** si se quiere generar Verilog.
+
+```bash
+# Para ejecutar simulación y generar Verilog
+python counter.py
+
+gtkwave counter.vcd
+```
