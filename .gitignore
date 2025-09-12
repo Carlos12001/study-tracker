@@ -1,0 +1,109 @@
+### SO Generales ###
+
+# Linux
+*~
+*.swp
+*.swo
+.DS_Store
+.directory
+.Trash-*
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+._*
+.Spotlight-V100
+.Trashes
+.fseventsd
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+################################
+### Python ###
+################################
+
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+*.pyd
+*.egg-info/
+.eggs/
+dist/
+build/
+.env
+.venv
+venv/
+ENV/
+*.log
+.coverage
+htmlcov/
+.pytest_cache/
+
+################################
+### Verilator ###
+################################
+
+# Archivos de simulación
+obj_dir/
+*.vcd
+*.fst
+*.dmp
+simv
+.vcddump
+.vpd
+*.vpp
+*.log
+*.trace
+
+# Compilación intermedia
+*.o
+*.d
+*.out
+*.exe
+
+################################
+### LiteX ###
+################################
+
+# Generados por litex
+software/build/
+software/include/generated/
+build/
+csr.csv
+csr.json
+soc.json
+*.bin
+*.elf
+*.bit
+*.svf
+*.v
+*.dts
+*.dtb
+*.litedram.init
+*.litedram.json
+*.config
+*.data
+litex_config.h
+litex_sim.log
+litex_sim.vcd
+
+################################
+### Otros ###
+################################
+
+# Entornos virtuales y editores
+.vscode/
+.idea/
+*.iml
+
+# Archivos temporales comunes
+*.tmp
+*.bak
+*.orig

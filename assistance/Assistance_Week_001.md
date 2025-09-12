@@ -8,19 +8,21 @@ En vez de diseñar todo en Verilog/VHDL, ofrece bloques listos para conectar, si
 <small> 🔹 SoC: chip que integra CPU + memoria + periféricos.
 🔹 Framework: como un kit de LEGO con piezas listas; en lugar de crear todo desde cero, solo armas con lo que ya viene.</small>
 
-
 <p align="center">
-  <img src="https://github.com/Carlos12001/study-tracker/blob/master/assistance/images/image_0001.png" width="500" alt="Ejemplo SoC"/>
+  <img src="./images/image_0001.png" width="500" alt="Ejemplo SoC"/>
 </p>
-
 
 ## ⚙️ ¿Cómo funciona LiteX?
 
 LiteX describe hardware usando Python + [Migen](https://m-labs.hk/misc/migen/) *️⃣ y lo convierte en HDL (Verilog/VHDL).  
-Luego se sintetiza con herramientas open-source o propietarias, generando el *bitstream* para cargar en la FPGA.
+Luego se sintetiza con herramientas open-source o propietarias, generando el *bitstream* para cargar en la FPGA o realiza la simulación con ayuda de [Verilator](https://www.veripool.org/verilator/) *️⃣  .
 
-<small>🔹 Migen: librería de Python para describir circuitos digitales de forma más sencilla que en Verilog/VHDL.</small>
+<small>🔹 Migen: librería de Python para describir circuitos digitales de forma más sencilla que en Verilog/VHDL.
+🔹 Verilator: simulador rápido de diseños en Verilog, convierte el hardware en un modelo en C++ para probarlo sin FPGA.</small>
 
+<p align="center">
+  <img src="./images/image_0002.png" width="500" alt="Arqui Litex"/>
+</p>
 
 ## 🔄 Flujo de trabajo
 
@@ -28,23 +30,11 @@ Luego se sintetiza con herramientas open-source o propietarias, generando el *bi
 Tu código Python (Migen/LiteX)
          ↓
 Generación HDL (Verilog)
-         ↓
-Síntesis (Vivado/Quartus/nextpnr/Yosys)
+         ↓                                        ↓
+Síntesis (Vivado/Quartus/nextpnr/Yosys) o Simulación en Verilator
          ↓
 Bitstream para FPGA
 ```
-
-
-## 🧰 Tecnologías que usa
-
-- **Lenguaje base:** Python + Migen  
-- **Compatibilidad:** Verilog · VHDL · nMigen · SpinalHDL  
-- **Simulación:** [Verilator](https://www.veripool.org/verilator/)*️⃣  
-- **Síntesis:** Yosys/nextpnr · Vivado · Quartus  
-- **CPUs soportadas:** VexRiscv · Rocket · PicoRV32 · LM32 · BlackParrot  
-
-<small>🔹 Verilator: simulador rápido de diseños en Verilog, convierte el hardware en un modelo en C++ para probarlo sin FPGA.</small>
-
 
 ## 🎯 ¿Para qué se usa?
 
@@ -57,15 +47,19 @@ Bitstream para FPGA
 ## 🧩 Arquitectura de LiteX
 
 LiteX actúa como **pegamento** entre:
+
 - Los **softcores** (CPUs implementadas en lógica programable).  
 - Los **periféricos** (Ethernet, DRAM, SATA, PCIe, UART, etc.).  
 - El **bus de interconexión** (Wishbone, AXI, Avalon-ST).  
 
 Todo se define en Python, y LiteX se encarga de generar el RTL, la conexión entre bloques y el *CSR map* (registros de control).
 
+<small>🔹 Softcore: procesador implementado en la FPGA por lógica programable, no grabado físicamente como un ARM Cortex en un SoC comercial.</small>
+
 ## 🖥️ Cores principales
 
 LiteX tiene un ecosistema de módulos reutilizables llamados **LiteX cores**:
+
 - **LiteDRAM:** controlador de memoria SDR/DDR/DDR3.  
 - **LiteEth:** Ethernet hasta 1 Gbps.  
 - **LitePCIe:** PCIe hasta Gen2 x4.  
@@ -78,23 +72,12 @@ Esto evita que los estudiantes tengan que programar periféricos desde cero.
 ## 🧠 Softcores soportados
 
 LiteX soporta varias CPUs “soft” que se implementan dentro de la FPGA:
+
 - **VexRiscv (RISC-V):** flexible, rápido, ideal para correr Linux.  
 - **PicoRV32 (RISC-V):** muy pequeño, perfecto para demos educativas.  
 - **LM32 (Lattice Micro32):** legado, simple de entender.  
 - **Rocket Chip (RISC-V):** núcleo de Berkeley, más avanzado.  
 - **BlackParrot (RISC-V multicore).**
-
-<small>🔹 Softcore: procesador implementado en la FPGA por lógica programable, no grabado físicamente como un ARM Cortex en un SoC comercial.</small>
-
-## 🧰 Tecnologías que usa
-
-- **Lenguaje base:** Python + Migen  
-- **Compatibilidad:** Verilog · VHDL · nMigen · SpinalHDL  
-- **Simulación:** [Verilator](https://www.veripool.org/verilator/) *️⃣  
-- **Síntesis:** Yosys/nextpnr · Vivado · Quartus  
-- **CPUs soportadas:** VexRiscv · Rocket · PicoRV32 · LM32 · BlackParrot  
-
-<small>🔹 Verilator: simulador rápido de diseños en Verilog, convierte el hardware en un modelo en C++ para probarlo sin FPGA.</small>
 
 ## ⚖️ Comparación con Vivado
 
@@ -122,7 +105,7 @@ cd ~/Documents/litex
 ```bash
 sudo apt update
 sudo apt install -y python3 python3-pip git meson ninja-build \
-    libevent-dev libjson-c-dev verilator
+    libevent-dev libjson-c-dev verilator gtkwave
 ```
 
 ### 🔹 Paso 3: Descargar e instalar LiteX
