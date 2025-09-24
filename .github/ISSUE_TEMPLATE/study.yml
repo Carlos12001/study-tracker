@@ -1,6 +1,6 @@
 name: "Weekly Report"
 description: Weekly activity log
-title: "<Project or Course> | Week <number> | <main focus>"
+title: "<Project or Course> | <Counter> <number> | <main focus>"
 labels: ["weekly-log"]
 
 body:
