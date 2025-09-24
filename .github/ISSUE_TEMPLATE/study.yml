@@ -1,35 +1,35 @@
 name: "Weekly Report"
-description: Informe de actividades semanales
-title: "[WEEK] Semana <número o rango de fechas>"
+description: Weekly activity log
+title: "[WEEK] Week <number or date range>"
 labels: ["weekly-log"]
 
 body:
   - type: textarea
     id: highlights
     attributes:
-      label: Logros principales
-      placeholder: "Ejemplo: Instalación de OpenLane, primer diseño con SkyWater 130 nm sintetizado"
+      label: Key Highlights
+      placeholder: "Example: OpenLane installed, first SkyWater 130 nm design synthesized"
 
   - type: textarea
     id: progress
     attributes:
-      label: Avances detallados
-      placeholder: "- Dockerfile ajustado\n- Tutorial de Migen en borrador\n- Demo de FSM corriendo en Basys-3"
+      label: Detailed Progress
+      placeholder: "- Adjusted Dockerfile\n- Drafted Migen tutorial\n- FSM demo running on Basys-3"
 
   - type: textarea
     id: blockers
     attributes:
-      label: Bloqueos o dificultades
-      placeholder: "Ejemplo: Error en librería de celdas, pendiente revisar con profesor"
+      label: Blockers / Challenges
+      placeholder: "Example: Library cell error, pending professor’s feedback"
 
   - type: textarea
     id: next
     attributes:
-      label: Próximos pasos
-      placeholder: "Ejemplo: Preparar demo en vivo para llamada con el profesor, grabar tutorial en Windows"
+      label: Next Steps
+      placeholder: "Example: Prepare live demo for meeting, record tutorial on Windows"
 
   - type: textarea
     id: notes
     attributes:
-      label: Notas adicionales
-      placeholder: "Ideas, reflexiones o recordatorios de la semana"
+      label: Additional Notes
+      placeholder: "Ideas, reflections, or reminders for the week"
