@@ -1,35 +1,35 @@
-name: "📚 Study Session"
-description: Log a study session with hours
-title: "[STUDY]"
-labels: ["study"]
+name: "Weekly Report"
+description: Informe de actividades semanales
+title: "[WEEK] Semana <número o rango de fechas>"
+labels: ["weekly-log"]
 
 body:
-  - type: input
-    id: date
+  - type: textarea
+    id: highlights
     attributes:
-      label: Date
-      placeholder: "2025-09-04"
-    validations:
-      required: true
-
-  - type: input
-    id: hours
-    attributes:
-      label: Hours spent
-      placeholder: "2.0"
-    validations:
-      required: true
+      label: Logros principales
+      placeholder: "Ejemplo: Instalación de OpenLane, primer diseño con SkyWater 130 nm sintetizado"
 
   - type: textarea
-    id: goal
+    id: progress
     attributes:
-      label: Goal
-      placeholder: "E.g., Review chapter 3 of Networking"
-    validations:
-      required: true
+      label: Avances detallados
+      placeholder: "- Dockerfile ajustado\n- Tutorial de Migen en borrador\n- Demo de FSM corriendo en Basys-3"
 
   - type: textarea
-    id: outcome
+    id: blockers
     attributes:
-      label: Outcome
-      placeholder: "E.g., Summary in /notes/ch3.md"
+      label: Bloqueos o dificultades
+      placeholder: "Ejemplo: Error en librería de celdas, pendiente revisar con profesor"
+
+  - type: textarea
+    id: next
+    attributes:
+      label: Próximos pasos
+      placeholder: "Ejemplo: Preparar demo en vivo para llamada con el profesor, grabar tutorial en Windows"
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notas adicionales
+      placeholder: "Ideas, reflexiones o recordatorios de la semana"
